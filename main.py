@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 """
 Puzzle Pegs: Solves 15-peg triangular board game
 Copyright (C) 2021 Michael Hazell <michaelhazell@hotmail.com>
