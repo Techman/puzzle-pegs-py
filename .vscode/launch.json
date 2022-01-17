@@ -9,6 +9,12 @@
             "type": "python",
             "request": "launch",
             "program": "main.py",
+            "args": [
+                "--start_pos",
+                "13",
+                "--end_pos",
+                "13"
+            ],
             "console": "integratedTerminal"
         }
     ]

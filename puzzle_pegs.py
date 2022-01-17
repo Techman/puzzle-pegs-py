@@ -85,12 +85,17 @@ class PuzzlePegs:
     # Starting hole location
     _start_pos: int
 
-    def _check_between_inclusive(self, lower: int, upper: int, value: int) -> bool:
-        """Check if a value is between two bounds, inclusive"""
-        if (value >= lower) and (value <= upper):
-            return True
-        else:
-            return False
+    def __init__(self, start_pos: int, end_pos: int):
+        """Create a puzzle with a starting hole and ending peg location specified"""  # pylint: disable=line-too-long
+        self._start_pos = start_pos
+        self._end_pos = end_pos
+
+    @staticmethod
+    def help():
+        """Print help information"""
+        print('Usage: PuzzlePegs(start_pos, end_pos)')
+        print('start_pos: the location of the starting hole in the board, e.g. 13')
+        print('end_pos: the location of the last peg, e.g. 13')
 
     def _print_board(self, board: list[str]) -> None:
         """Print the game board in ASCII form"""
@@ -103,6 +108,35 @@ class PuzzlePegs:
         string += board[11] + ' ' + board[12] + ' ' + \
             board[13] + ' ' + board[14] + ' ' + board[15]
         print(string)
+
+    def solve(self):
+        """Solve the puzzle"""
+        # Build the board. Reserve 16 spaces.
+        board: list[str] = []
+        board.insert(0, ' ')  # Null "space", this space is not used
+        for i in range(1, 16, 1):
+            if self._start_pos == i:
+                board.insert(i, self._HOLE)
+            else:
+                board.insert(i, self._PEG)
+
+        # Store the initial board to show before the moves are printed
+        original = deepcopy(board)
+
+        # Now, solve the puzzle!
+        if self._solve(board):
+            print('Initial board')
+            self._print_board(original)
+
+            # Print the moves and board to the output. The moves are in reverse order due to the
+            # recursion. THe board states are not.
+            j: int = 0
+            for i in range(len(self._jumps) - 1, -1, -1):
+                print(self._jumps[i])
+                self._print_board(self._boards[j])
+                j += 1
+        else:
+            print('No solution could be found for this combination')
 
     def _solve(self, board: list[str]) -> bool:
         """Internal recursive function for solving, making use of backtracking"""
@@ -146,52 +180,3 @@ class PuzzlePegs:
         # Count of 'P' was not 1 or the value at the ending position was not 'P'
         else:
             return False
-
-    @staticmethod
-    def help():
-        """Print help information"""
-        print('Usage: PuzzlePegs(start_pos, end_pos)')
-        print('start_pos: the location of the starting hole in the board, e.g. 13')
-        print('end_pos: the location of the last peg, e.g. 13')
-
-    def __init__(self, start_pos: int, end_pos: int):
-        """Create a puzzle with a starting hole and ending peg location specified"""
-        if not self._check_between_inclusive(1, 15, start_pos):
-            raise ArgumentError(
-                None, 'Starting hole location must be an integer from 1 to 15, inclusive')  # pylint: disable=line-too-long
-
-        if (not self._check_between_inclusive(1, 15, end_pos)) and (end_pos != -1):
-            raise ArgumentError(
-                None, 'Ending peg location must be an integer from 1 to 15 (inclusive) or -1 if location does not matter')  # pylint: disable=line-too-long
-
-        self._start_pos = start_pos
-        self._end_pos = end_pos
-
-    def solve(self):
-        """Solve the puzzle"""
-        # Build the board. Reserve 16 spaces.
-        board: list[str] = []
-        board.insert(0, ' ')  # Null "space", this space is not used
-        for i in range(1, 16, 1):
-            if self._start_pos == i:
-                board.insert(i, self._HOLE)
-            else:
-                board.insert(i, self._PEG)
-
-        # Store the initial board to show before the moves are printed
-        original = deepcopy(board)
-
-        # Now, solve the puzzle!
-        if self._solve(board):
-            print('Initial board')
-            self._print_board(original)
-
-            # Print the moves and board to the output. The moves are in reverse order due to the
-            # recursion. THe board states are not.
-            j: int = 0
-            for i in range(len(self._jumps) - 1, -1, -1):
-                print(self._jumps[i])
-                self._print_board(self._boards[j])
-                j += 1
-        else:
-            print('No solution could be found for this combination')
