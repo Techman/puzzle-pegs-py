@@ -30,8 +30,7 @@ args = parser.parse_args()
 
 def main():
     """Main method, used for running the program"""
-
-    puzzle = PuzzlePegs(args.begin, args.end)
+    puzzle = PuzzlePegs(args.start_pos, args.end_pos)
     puzzle.solve()
 
 
