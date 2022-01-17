@@ -19,7 +19,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 # Preface: a note on private variables/members (they do not exist)
 # https://docs.python.org/3/tutorial/classes.html#private-variables
 
-from argparse import ArgumentError
 from copy import deepcopy
 
 
