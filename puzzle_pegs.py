@@ -23,13 +23,13 @@ from copy import deepcopy
 
 
 class PuzzlePegs:
-    """ Solves the 15-peg triangular board game"""
+    """Solves the 15-peg triangular board game"""
 
     # Universal representation of a peg
-    _PEG: str = 'P'
+    _PEG: str = "P"
 
     # Universal representation of a hole
-    _HOLE: str = 'H'
+    _HOLE: str = "H"
 
     # Universal table of moves
     # This is only valid for 14-hole boards of trangular shape
@@ -69,7 +69,7 @@ class PuzzlePegs:
         [14, 13, 12],
         [14, 9, 5],
         [15, 10, 6],
-        [15, 14, 13]
+        [15, 14, 13],
     ]
 
     # History of boards representing the jumps
@@ -92,27 +92,37 @@ class PuzzlePegs:
     @staticmethod
     def help():
         """Print help information"""
-        print('Usage: PuzzlePegs(start_pos, end_pos)')
-        print('start_pos: the location of the starting hole in the board, e.g. 13')
-        print('end_pos: the location of the last peg, e.g. 13')
+        print("Usage: PuzzlePegs(start_pos, end_pos)")
+        print("start_pos: the location of the starting hole in the board, e.g. 13")
+        print("end_pos: the location of the last peg, e.g. 13")
 
     def _print_board(self, board: list[str]) -> None:
         """Print the game board in ASCII form"""
-        string = ''
-        string += '    ' + board[1] + '\n'
-        string += '   ' + board[2] + ' ' + board[3] + '\n'
-        string += '  ' + board[4] + ' ' + board[5] + ' ' + board[6] + '\n'
-        string += ' ' + board[7] + ' ' + board[8] + \
-            ' ' + board[9] + ' ' + board[10] + '\n'
-        string += board[11] + ' ' + board[12] + ' ' + \
-            board[13] + ' ' + board[14] + ' ' + board[15]
+        string = ""
+        string += "    " + board[1] + "\n"
+        string += "   " + board[2] + " " + board[3] + "\n"
+        string += "  " + board[4] + " " + board[5] + " " + board[6] + "\n"
+        string += (
+            " " + board[7] + " " + board[8] + " " + board[9] + " " + board[10] + "\n"
+        )
+        string += (
+            board[11]
+            + " "
+            + board[12]
+            + " "
+            + board[13]
+            + " "
+            + board[14]
+            + " "
+            + board[15]
+        )
         print(string)
 
     def solve(self):
         """Solve the puzzle"""
         # Build the board. Reserve 16 spaces.
         board: list[str] = []
-        board.insert(0, ' ')  # Null "space", this space is not used
+        board.insert(0, " ")  # Null "space", this space is not used
         for i in range(1, 16, 1):
             if self._start_pos == i:
                 board.insert(i, self._HOLE)
@@ -124,7 +134,7 @@ class PuzzlePegs:
 
         # Now, solve the puzzle!
         if self._solve(board):
-            print('Initial board')
+            print("Initial board")
             self._print_board(original)
 
             # Print the moves and board to the output. The moves are in reverse order due to the
@@ -135,7 +145,7 @@ class PuzzlePegs:
                 self._print_board(board)
 
         else:
-            print('No solution could be found for this combination')
+            print("No solution could be found for this combination")
 
     def _solve(self, board: list[str]) -> bool:
         """Internal recursive function for solving, making use of backtracking"""
@@ -143,7 +153,11 @@ class PuzzlePegs:
         for move in self._MOVES:
             # See if we can match a PPH pattern. If we can, try following this route by calling
             # ourselves again with this modified board
-            if (board[move[0]] == self._PEG) and (board[move[1]] == self._PEG) and (board[move[2]] == self._HOLE):  # pylint: disable=line-too-long
+            if (
+                (board[move[0]] == self._PEG)
+                and (board[move[1]] == self._PEG)
+                and (board[move[2]] == self._HOLE)
+            ):  # pylint: disable=line-too-long
                 # Apply the move
                 board[move[0]] = self._HOLE
                 board[move[1]] = self._HOLE
@@ -158,7 +172,8 @@ class PuzzlePegs:
                 if self._solve(board):
                     # Record the jump
                     self._jumps.append(
-                        f'Moved {move[0]} to {move[2]}, jumping over {move[1]}')
+                        f"Moved {move[0]} to {move[2]}, jumping over {move[1]}"
+                    )
                     return True
 
                 # If we end up here, undo the move and try the next one

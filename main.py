@@ -20,16 +20,23 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 from argparse import ArgumentParser
 from puzzle_pegs import PuzzlePegs
 
-parser = ArgumentParser(
-    description='Solve triangular puzzle peg game with 15 pegs')
-parser.add_argument('-s', '--start_pos', type=int, required=True,
-                    choices=[1, 2, 3, 4, 5, 6, 7, 8,
-                             9, 10, 11, 12, 13, 14, 15],
-                    help='The location of the hole when the game begins, e.g. 13')
-parser.add_argument('-e', '--end_pos', type=int, required=True,
-                    choices=[-1, 1, 2, 3, 4, 5, 6, 7, 8,
-                             9, 10, 11, 12, 13, 14, 15],
-                    help='The location of the last peg, e.g. 13')
+parser = ArgumentParser(description="Solve triangular puzzle peg game with 15 pegs")
+parser.add_argument(
+    "-s",
+    "--start_pos",
+    type=int,
+    required=True,
+    choices=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
+    help="The location of the hole when the game begins, e.g. 13",
+)
+parser.add_argument(
+    "-e",
+    "--end_pos",
+    type=int,
+    required=True,
+    choices=[-1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
+    help="The location of the last peg, e.g. 13",
+)
 args = parser.parse_args()
 
 
