@@ -25,69 +25,66 @@ from copy import deepcopy
 class PuzzlePegs:
     """Solves the 15-peg triangular board game"""
 
-    # Universal representation of a peg
-    _PEG: str = "P"
-
-    # Universal representation of a hole
-    _HOLE: str = "H"
-
-    # Universal table of moves
-    # This is only valid for 14-hole boards of trangular shape
-    _MOVES: list[list[int]] = [
-        [1, 2, 4],
-        [1, 3, 6],
-        [2, 4, 7],
-        [2, 5, 9],
-        [3, 5, 8],
-        [3, 6, 10],
-        [4, 2, 1],
-        [4, 5, 6],
-        [4, 7, 11],
-        [4, 8, 13],
-        [5, 8, 12],
-        [5, 9, 14],
-        [6, 3, 1],
-        [6, 5, 4],
-        [6, 9, 13],
-        [6, 10, 15],
-        [7, 4, 2],
-        [7, 8, 9],
-        [8, 5, 3],
-        [8, 9, 10],
-        [9, 5, 2],
-        [9, 8, 7],
-        [10, 6, 3],
-        [10, 9, 8],
-        [11, 7, 4],
-        [11, 12, 13],
-        [12, 8, 5],
-        [12, 13, 14],
-        [13, 12, 11],
-        [13, 8, 4],
-        [13, 9, 6],
-        [13, 14, 15],
-        [14, 13, 12],
-        [14, 9, 5],
-        [15, 10, 6],
-        [15, 14, 13],
-    ]
-
-    # History of boards representing the jumps
-    _boards: list[list[str]] = []
-
-    # Ending peg location
-    _end_pos: int
-
-    # History of jumps
-    _jumps: list[str] = []
-
-    # Starting hole location
-    _start_pos: int
-
     def __init__(self, start_pos: int, end_pos: int):
         """Create a puzzle with a starting hole and ending peg location specified"""  # pylint: disable=line-too-long
-        self._start_pos = start_pos
-        self._end_pos = end_pos
+        # Starting hole location
+        self._start_pos: int = start_pos
+
+        # Ending peg location
+        self._end_pos: int = end_pos
+
+        # History of boards representing the jumps
+        self._boards: list[list[str]] = []
+
+        # History of jumps
+        self._jumps: list[str] = []
+
+        # Universal representation of a peg
+        self._PEG: str = "P"  # pylint: disable=invalid-name
+
+        # Universal representation of a hole
+        self._HOLE: str = "H"  # pylint: disable=invalid-name
+
+        # Universal table of moves
+        # This is only valid for 14-hole boards of trangular shape
+        self._MOVES: list[list[int]] = [  # pylint: disable=invalid-name
+            [1, 2, 4],
+            [1, 3, 6],
+            [2, 4, 7],
+            [2, 5, 9],
+            [3, 5, 8],
+            [3, 6, 10],
+            [4, 2, 1],
+            [4, 5, 6],
+            [4, 7, 11],
+            [4, 8, 13],
+            [5, 8, 12],
+            [5, 9, 14],
+            [6, 3, 1],
+            [6, 5, 4],
+            [6, 9, 13],
+            [6, 10, 15],
+            [7, 4, 2],
+            [7, 8, 9],
+            [8, 5, 3],
+            [8, 9, 10],
+            [9, 5, 2],
+            [9, 8, 7],
+            [10, 6, 3],
+            [10, 9, 8],
+            [11, 7, 4],
+            [11, 12, 13],
+            [12, 8, 5],
+            [12, 13, 14],
+            [13, 12, 11],
+            [13, 8, 4],
+            [13, 9, 6],
+            [13, 14, 15],
+            [14, 13, 12],
+            [14, 9, 5],
+            [15, 10, 6],
+            [15, 14, 13],
+        ]
 
     @staticmethod
     def help():
@@ -102,20 +99,8 @@ class PuzzlePegs:
         string += "    " + board[1] + "\n"
         string += "   " + board[2] + " " + board[3] + "\n"
         string += "  " + board[4] + " " + board[5] + " " + board[6] + "\n"
-        string += (
-            " " + board[7] + " " + board[8] + " " + board[9] + " " + board[10] + "\n"
-        )
-        string += (
-            board[11]
-            + " "
-            + board[12]
-            + " "
-            + board[13]
-            + " "
-            + board[14]
-            + " "
-            + board[15]
-        )
+        string += " " + board[7] + " " + board[8] + " " + board[9] + " " + board[10] + "\n"
+        string += board[11] + " " + board[12] + " " + board[13] + " " + board[14] + " " + board[15]
         print(string)
 
     def solve(self):
@@ -154,9 +139,7 @@ class PuzzlePegs:
             # See if we can match a PPH pattern. If we can, try following this route by calling
             # ourselves again with this modified board
             if (
-                (board[move[0]] == self._PEG)
-                and (board[move[1]] == self._PEG)
-                and (board[move[2]] == self._HOLE)
+                (board[move[0]] == self._PEG) and (board[move[1]] == self._PEG) and (board[move[2]] == self._HOLE)
             ):  # pylint: disable=line-too-long
                 # Apply the move
                 board[move[0]] = self._HOLE
@@ -171,9 +154,7 @@ class PuzzlePegs:
                 # was false, we hit a dead end and we should not print the move
                 if self._solve(board):
                     # Record the jump
-                    self._jumps.append(
-                        f"Moved {move[0]} to {move[2]}, jumping over {move[1]}"
-                    )
+                    self._jumps.append(f"Moved {move[0]} to {move[2]}, jumping over {move[1]}")
                     return True
 
                 # If we end up here, undo the move and try the next one
