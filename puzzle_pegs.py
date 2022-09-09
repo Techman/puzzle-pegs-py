@@ -19,8 +19,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 # Preface: a note on private variables/members (they do not exist)
 # https://docs.python.org/3/tutorial/classes.html#private-variables
 
-from copy import deepcopy
-
 
 class PuzzlePegs:
     """Solves the 15-peg triangular board game"""
@@ -115,7 +113,7 @@ class PuzzlePegs:
                 board.insert(i, self._PEG)
 
         # Store the initial board to show before the moves are printed
-        original = deepcopy(board)
+        original = board.copy()
 
         # Now, solve the puzzle!
         if self._solve(board):
@@ -147,7 +145,7 @@ class PuzzlePegs:
                 board[move[2]] = self._PEG
 
                 # Record the board in history of boards
-                clone = deepcopy(board)
+                clone = board.copy()
                 self._boards.append(clone)
 
                 # Call ourselves recursively. If we return true then the conclusion was good. If it
