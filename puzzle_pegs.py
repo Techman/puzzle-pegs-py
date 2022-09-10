@@ -91,14 +91,15 @@ class PuzzlePegs:
         print("start_pos: the location of the starting hole in the board, e.g. 13")
         print("end_pos: the location of the last peg, e.g. 13")
 
-    def _print_board(self, board: list[str]) -> None:
+    @staticmethod
+    def _print_board(board: list[str]) -> None:
         """Print the game board in ASCII form"""
         string = ""
-        string += "    " + board[1] + "\n"
-        string += "   " + board[2] + " " + board[3] + "\n"
-        string += "  " + board[4] + " " + board[5] + " " + board[6] + "\n"
-        string += " " + board[7] + " " + board[8] + " " + board[9] + " " + board[10] + "\n"
-        string += board[11] + " " + board[12] + " " + board[13] + " " + board[14] + " " + board[15]
+        string += f"    {board[1]}\n"
+        string += f"   {board[2]} {board[3]}\n"
+        string += f"  {board[4]} {board[5]} {board[6]}\n"
+        string += f" {board[7]} {board[8]} {board[9]} {board[10]}\n"
+        string += f"{board[11]} {board[12]} {board[13]} {board[14]} {board[15]}"
         print(string)
 
     def solve(self):
