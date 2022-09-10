@@ -123,8 +123,8 @@ class PuzzlePegs:
             # Print the moves and board to the output. The moves are in reverse order due to the
             # recursion. The board states are not.
             self._jumps.reverse()
-            for i, board in enumerate(self._boards):
-                print(self._jumps[i])
+            for (jump, board) in zip(self._jumps, self._boards):
+                print(jump)
                 self._print_board(board)
 
         else:
